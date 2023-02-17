@@ -6,6 +6,7 @@ import RecipeDetails from '@/views/RecipeDetails.vue'
 import EditRecipe from '@/views/EditRecipe.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import AboutView from '../views/AboutView.vue'
+import NotFound from '@/views/NotFound.vue'
 import { auth } from '@/firebase'
 
 const requiredAuth = (to, from, next) => {
@@ -56,6 +57,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: AboutView
+  },
+  { 
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound', 
+    component: NotFound 
   }
 ]
 

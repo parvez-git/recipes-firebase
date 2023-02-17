@@ -8,14 +8,14 @@
                 :alt="items[currentIndex].title">
         </div>
         <!-- Silder Content -->
-        <div v-if="items.length" class="flex-1 flex flex-col h-full justify-end">
+        <div v-if="items.length" class="flex-1 flex flex-col h-full w-[690px] justify-end">
             <h1 class="font-bold text-4xl text-slate-800">{{ items[currentIndex].title }}</h1>
             <p class="py-4 text-slate-600 max-w-lg">{{ items[currentIndex].description }}</p>
             <!-- view details -->
             <div class="flex flex-row items-center space-x-12 py-4">
                 <div class="italic text-slate-700">
                     <div class="text-sm underline capitalize">cooking time:</div>
-                    <div class="text-xl font-bold uppercase">30 min</div>
+                    <div class="text-xl font-bold uppercase">{{ items[currentIndex].cookingTime }} min</div>
                 </div>
                 <RouterLink :to="{ name: 'recipe-details', params: { id: items[currentIndex].id } }"
                     class="uppercase text-slate-50 bg-slate-800 font-semibold px-4 py-2 shadow">
@@ -34,7 +34,7 @@
                         <div class="text-slate-100 py-4 px-1 w-1/2 flex flex-col space-y-1">
                             <div class="flex flex-row space-x-1">
                                 <Icons name="clock"/>
-                                <div class="text-xs font-bold uppercase">130 min</div>
+                                <div class="text-xs font-bold uppercase">{{ item.cookingTime }} min</div>
                             </div>
                             <div class="text-xs text-slate-100 flex flex-row space-x-1">
                                 <Icons name="star"/>
@@ -42,9 +42,9 @@
                             </div>
                         </div>
                     </div>
-                    <h3 class="text-sm text-slate-100 capitalize px-2 py-2" :title="item.title">{{
-                        itemTitle(item.title)
-                    }}</h3>
+                    <h3 class="text-[12px] text-slate-100 capitalize px-2 py-2" :title="item.title">
+                        {{ shortTitle(item.title)}}
+                    </h3>
                 </div>
             </div> <!-- ./thumb list-->
 
@@ -75,8 +75,8 @@ onMounted(() => {
     documents()
 })
 
-const itemTitle = (title) => {
-    let n = 18;
+const shortTitle = (title) => {
+    let n = 20;
     return (title.length > n) ? title.slice(0, n - 1) + '...' : title;
 }
 

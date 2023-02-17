@@ -4,10 +4,10 @@
             <img :src="document.coverUrl" class="w-full shrink-0 h-full object-cover" :alt="document.title">
         </div>
         <div class="flex-1 flex flex-col h-full">
-            <div class="flex flex-row justify-between mb-3">
+            <div class="flex flex-row justify-between space-x-4 mb-3">
                 <h2 class="text-2xl font-bold">{{ document.title }}</h2>
                 <div class="flex flex-row items-center space-x-2">
-                    <RouterLink :to="{ name: 'recipe-edit', params: { id: document.id } }"
+                    <RouterLink v-if="ownership" :to="{ name: 'recipe-edit', params: { id: document.id } }"
                         class="text-left text-blue-900 hover:text-blue-600">
                         <Icons name="edit" />
                     </RouterLink>
@@ -19,12 +19,14 @@
             </div>
             <div class="flex flex-row items-center justify-between space-x-8">
                 <div class="w-1/2">
-                    <p class="mb-4">{{ document?.description }}</p>
+                    <p class="mb-4 text-gray-600">{{ document?.description }}</p>
                     <span v-for="(tag, index) in document?.tags" :key="index"
                         class="bg-red-400 px-2 py-1 rounded text-white text-sm whitespace-nowrap mr-1 mb-2 transition-colors duration-100 ease-linear cursor-pointer">
                         {{ tag }}
                     </span>
-                    <hr class="my-4">
+                    <hr class="my-2">
+                    <p class="text-gray-700 italic">Cooking Time: {{ document?.cookingTime }} min</p>
+                    <hr class="my-2">
                     <h3 class="text-base font-bold uppercase underline">Ingredients:</h3>
                     <ul v-for="(ingredient, index) in document?.ingredients" :key="index" class="list-none">
                         <li class="flex flex-row items-center justify-between px-4 py-2 bg-gray-100 mt-2">

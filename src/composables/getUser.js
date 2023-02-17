@@ -7,7 +7,7 @@ auth.onAuthStateChanged( _user => {
 
     user.value = _user
 
-    console.log('User state change. Current user:', _user)
+    // console.log('User state change. Current user:', _user)
 });
 
 const useUser = () => {

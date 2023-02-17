@@ -31,6 +31,9 @@
                 </div>
                 <!-- Right Half -->
                 <div class="flex flex-col space-y-4 w-1/2">
+                    <BaseInput v-model="cookingTime" label="Cooking Time (in min)" type="number" />
+                    <ToggleSwitch v-model:checked="featured" label="Featured" />
+
                     <DynamicInput :items="ingredients" items-heading="Ingredients:" placeholder="ingredient" />
                     <DynamicInputArr :items="instructions" items-heading="Instructions:" placeholder="instruction" />
                 </div>
@@ -47,6 +50,7 @@ import TagsInput from '@/components/TagsInput.vue';
 import DynamicInput from "@/components/DynamicInput";
 import DynamicInputArr from '@/components/DynamicInputArr.vue';
 import AvatarUploader from '@/components/AvatarUploader.vue';
+import ToggleSwitch from '@/components/ToggleSwitch.vue';
 import getDocument from '@/composables/getDocument';
 import useDocument from '@/composables/useDocument';
 import useStorage from '@/composables/useStorage';
@@ -67,6 +71,8 @@ const { url, deleteImage, uploadImage } = useStorage()
 
 const title = ref('')
 const description = ref('')
+const cookingTime = ref('')
+const featured = ref(false)
 const tags = ref([])
 const ingredients = ref([])
 const instructions = ref([])
@@ -77,6 +83,8 @@ const filePath = ref(null)
 watch(document, (recipe) => {
     title.value = recipe.title
     description.value = recipe.description
+    cookingTime.value = recipe.cookingTime
+    featured.value = recipe.featured
     imgurl.value = recipe.coverUrl
     filePath.value = recipe.filePath
     tags.value.push(...recipe.tags)
@@ -95,7 +103,7 @@ const handleSubmit = async () => {
         if (file.value) {
             await deleteImage(filePath.value)
 
-            let newfilePath = 'recipes/' + user.value.uid + file.value.name
+            let newfilePath = 'recipes/' + user.value.uid +'/'+ file.value.name
             await uploadImage(file.value, newfilePath)
 
             imgurl.value = url.value
@@ -105,6 +113,8 @@ const handleSubmit = async () => {
         const res = await updateDocument({
             title: title.value,
             description: description.value,
+            cookingTime: cookingTime.value,
+            featured: featured.value,
             tags: tags.value,
             ingredients: ingredients.value,
             instructions: instructions.value,

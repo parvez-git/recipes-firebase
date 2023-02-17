@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 @layer base {
-    #recipelist::-webkit-scrollbar {
+    .recipes-y-scroll::-webkit-scrollbar {
         @apply w-1
     }
 
-    #recipelist::-webkit-scrollbar-thumb {
+    .recipes-y-scroll::-webkit-scrollbar-thumb {
         @apply bg-blue-200 border rounded-full
     }
 }

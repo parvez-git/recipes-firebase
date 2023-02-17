@@ -24,6 +24,13 @@
 
                     <!-- Right Half -->
                     <div class="flex flex-col space-y-4 w-1/2">
+                        <div>
+                            <BaseInput v-model="cookingTime" label="Cooking Time (in min)" type="number" />
+                        </div>
+                        <div>
+                            <ToggleSwitch v-model:checked="featured" label="Featured"></ToggleSwitch>
+                            <hr class="my-2">
+                        </div>
                         <!-- Ingredients -->
                         <div class="flex flex-row items-center justify-between mt-4">
                             <h3 class="text-2xl font-bold text-slate-500 capitalize">ingredients:</h3>
@@ -75,6 +82,7 @@ import Icons from '@/components/Icons.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import TagsInput from '@/components/TagsInput.vue';
+import ToggleSwitch from '@/components/ToggleSwitch.vue';
 import ProfileUploader from '@/components/ProfileUploader.vue';
 import getUser from '@/composables/getUser';
 import useStorage from '@/composables/useStorage';
@@ -93,6 +101,8 @@ const router = useRouter()
 
 const title = ref('')
 const description = ref('')
+const cookingTime = ref('')
+const featured = ref(false)
 const tags = ref([])
 const ingredients = ref([])
 const instructionFields = ref(0)
@@ -124,17 +134,20 @@ const removeInstruction = (index) => {
 const handleSubmit = async () => {
     if (file.value && user.value) {
         state.isLoading = true
-        let filePath = 'recipes/' + user.value.uid + file.value.name
+        let filePath = 'recipes/' + user.value.uid + '/' + file.value.name
         await uploadImage(file.value, filePath)
 
         const res = await addDocument({
             title: title.value,
             description: description.value,
             tags: tags.value,
+            featured: featured.value,
+            cookingTime: cookingTime.value,
             ingredients: ingredients.value,
             instructions: instructions.value,
             coverUrl: url.value,
             filePath: filePath,
+            userId: user.value.uid,
             userEmail: user.value.email,
             createdAt: serverTimestamp()
         })
